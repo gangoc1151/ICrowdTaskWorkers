@@ -99,14 +99,27 @@ passport.use(
       const newUser = {
         googleId: profile.id,
         username: profile.displayName,
+        coutries: "empty",
+        fname: profile.displayName,
+        lname: profile.displayName,
+        email: "email@gmail.com",
+        password: "hashPassword",
+        address: "address",
+        city: "city",
+        state: "state",
+        zip: "zip",
+        mobile: "0123456789",
+        password_token: null,
       };
 
       try {
-        let user = await User.findOne({ googleId: profile.id });
+        let user = await Register.findOne({ googleId: profile.id });
         if (user) {
+          console.log(user);
           return done(null, user);
         } else {
-          user = await User.create(newUser);
+          user = await Register.create(newUser);
+          console.log(user);
           return done(null, user);
         }
       } catch (err) {
@@ -153,7 +166,7 @@ mongoose.connect(
 app.get(
   "/auth/google",
   passport.authenticate("google", {
-    scope: ["https://www.googleapis.com/auth/plus.login"],
+    scope: ["profile", "email"],
   })
 );
 app.get(
@@ -230,9 +243,6 @@ app.post("/reset", (req, res) => {
 
   console.log(token);
   try {
-    if (passport.Leng) {
-      return res.send("<h3> password need to be more than 8 characters</h3>");
-    }
     if (password != cpassword) {
       return res.send("<h3> password does not match </h3>");
     }
@@ -306,6 +316,8 @@ app.post("/SignUp", (req, res) => {
   console.log(firstname, lastname, email);
 
   const register = new Register({
+    googleId: "empty",
+    username: firstname,
     coutries: countries,
     fname: firstname,
     lname: lastname,

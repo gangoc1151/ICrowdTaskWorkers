@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const passportLocalMongoose = require("passport-local-mongoose");
 var RegisterSchema = new mongoose.Schema({
+  googleId: String,
+  username: String,
   coutries: String,
   fname: {
     type: String,
