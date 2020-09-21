@@ -230,9 +230,13 @@ app.post("/reset", (req, res) => {
 
   console.log(token);
   try {
+    if (passport.Leng) {
+      return res.send("<h3> password need to be more than 8 characters</h3>");
+    }
     if (password != cpassword) {
       return res.send("<h3> password does not match </h3>");
     }
+
     Register.findOneAndUpdate(
       { password_token: token },
       { password: hashPassword },
