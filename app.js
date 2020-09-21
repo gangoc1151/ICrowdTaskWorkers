@@ -32,9 +32,15 @@ app.use(express.static(publicDirectoryPath));
 
 var transporter = nodemailer.createTransport({
   service: "gmail",
+  port: 465,
+  secure: true,
   auth: {
     user: "viet03121998@gmail.com",
     pass: "viet1234",
+  },
+  tls: {
+    // do not fail on invalid certs
+    rejectUnauthorized: false,
   },
 });
 
